@@ -27,7 +27,7 @@ function login_user(){
 
 function logout(){
   Parse.User.logOut();
-  window.location.href="http://jcodelog.github.io/CreativeriaTest/index.html";
+  window.location.href="http://jcodelog.github.io/CreativeriaTest/";
 }
 
 /** Show a alert message with important info
