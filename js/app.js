@@ -11,7 +11,7 @@ function login_user(){
   Parse.User.logIn(name,pass, {
   success: function(user) {  
     alert("Welcome!!");
-    window.location.href="http://jcodelog.github.io/CreativeriaTest/init/";
+    window.location.href="http://jcodelog.github.io/CreativeriaTest/init/index.html";
   },
   error: function(user, error) {
     alert("wrong username or password");
@@ -27,7 +27,7 @@ function login_user(){
 
 function logout(){
   Parse.User.logOut();
-  window.location.href="http://jcodelog.github.io/CreativeriaTest/";
+  window.location.href="http://jcodelog.github.io/CreativeriaTest/index.html";
 }
 
 /** Show a alert message with important info
