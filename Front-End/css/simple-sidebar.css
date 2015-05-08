@@ -1,3 +1,4 @@
+/*Pallete base FF7400*/
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
@@ -18,7 +19,8 @@
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #994100;
+    background: #ffffff;
+    border-right: 2px solid #eee;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -59,12 +61,12 @@
 .sidebar-nav li a {
     display: block;
     text-decoration: none;
-    color: #fff;
+    color: #999999;
 }
 
 .sidebar-nav li a:hover {
     text-decoration: none;
-    color: #fff;
+    color: #000000;
     background: rgba(255,255,255,0.2);
 }
 
@@ -80,15 +82,16 @@
 }
 
 .sidebar-nav > .sidebar-brand a {
-    color: #fff;
+    color: #999999;
+    border-bottom: 1px solid #eee;
 }
 
 .sidebar-nav > .sidebar-brand a:hover {
-    color: #fff;
+    color: #000;
     background: none;
 }
 
-@media(min-width:768px) {
+@media(min-width:0px) {
     #wrapper {
         padding-left: 200px;
     }
