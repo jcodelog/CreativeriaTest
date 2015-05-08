@@ -1,3 +1,33 @@
+/*  
+ * Gradient style
+ */
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#linearBg {
+background: #ff7400; /* Old browsers */
+background: -moz-linear-gradient(top, #ff7400 33%, #ffa73d 87%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(33%,#ff7400), color-stop(87%,#ffa73d)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ff7400 33%,#ffa73d 87%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ff7400 33%,#ffa73d 87%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #ff7400 33%,#ffa73d 87%); /* IE10+ */
+background: linear-gradient(to bottom, #ff7400 33%,#ffa73d 87%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff7400', endColorstr='#ffa73d',GradientType=0 ); /* IE6-9 */
+}
+
+
+/*
+ *  Color style elements
+ */
+
 *.icon-white {color: white}
 
 .btn-success:hover{
@@ -9,6 +39,12 @@
     border-radius: 0;
 }
  
+.bg-orange {
+  background-color: #ff7400; }
+
+.bg-orange-ligth {
+  background-color: #ffaa64; }  
+
 .bg-navy {
   background-color: #001f3f; }
  
@@ -27,9 +63,7 @@
 .bg-yellow {
   background-color: #ffdc00; }
  
-.bg-orange {
-  background-color: #ff851b; }
- 
+
 .bg-red {
   background-color: #ff4136; }
  
@@ -54,7 +88,9 @@
 .black {
   color: #111111; }
 
-
+/*
+ *  Login panel style
+ */
 .wrapper {  
   margin-top: 80px;
   margin-bottom: 80px;
@@ -64,12 +100,12 @@
   max-width: 380px;
   padding: 15px 35px 45px;
   margin: 0 auto;
-
+  background-color: #fff;
   border: 1px solid rgba(0,0,0,0.1);  
 
   .form-signin-heading,
   .checkbox {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
   }
 
   .checkbox {
@@ -89,7 +125,7 @@
   }
 
   input[type="text"] {
-    margin-bottom: -1px;
+    margin-bottom: 20px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }

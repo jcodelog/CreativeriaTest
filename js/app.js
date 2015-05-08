@@ -1,25 +1,50 @@
+/** Login function use parse user
+  * Args: None
+  * Returns: Successful message
+ */  
 
+function login_user(){
 
-function log_user(name,pass){
+  var name = document.getElementById("username").value;
+  var pass = document.getElementById("password").value;
+
   Parse.User.logIn(name,pass, {
   success: function(user) {  
     alert("Welcome!!");
     window.location.href="init.html";
   },
   error: function(user, error) {
-    alert(error);
+    alert("wrong username or password");
   }
 });
 }
 
+/** Logout function of parse user
+  * Args: None
+  * Returns: None
+ */  
 
 
+function logout(){
+  Parse.User.logOut();
+  window.location.href="index.html";
+}
 
-/**
-  *
-  *
-  *
- */ 
+/** Show a alert message with important info
+  * Args: None
+  * Returns:  Help message
+ */  
+
+function alert_msg(){
+  alert("Username: Creativeria\nPassword: 123456");
+}
+
+/** Simulate a play song
+  * Args: 
+  *       id: ID of the song to play
+  *       albumID: ID of the album to play
+  * Returns: Successful  message
+ */  
 
 function play_song(id,id_album){
 	Parse.Cloud.run('PlaySong', {postId: id , albumId: id_album}, {
@@ -32,11 +57,16 @@ function play_song(id,id_album){
 	});
 }
 
-/**
-  *
-  *
-  *
- */ 
+/** Build html table for a song listview
+  * Args: id: ID Song
+  * Artist: Name of the artist
+  * Title: Name of the song
+  * Album: Name of the album
+  * Replays: Number of replays
+  * Duration: String with a rnd duration song
+  * FK_Album: Foering key to album 
+  * Returns: HTML with table form 
+ */  
 
 function song_Listview(id,Artist,Title,Album,Replays,Duration,FK_Album){
 	var str = "<tr>"+
@@ -50,11 +80,16 @@ function song_Listview(id,Artist,Title,Album,Replays,Duration,FK_Album){
       return str;             
 }
 
-/**
-  *
-  *
-  *
- */ 
+/** Build html table for a album listview
+  * Args: 
+  *   id: ID of the album
+  *   Title: name of the album
+  *   Artist: name of the artist
+  *   Year: year when the album was published
+  *   data: type operation (buy/replay)
+  *   price: price of the album sell
+  * Returns: String/html form with table construction
+ */   
 
 function album_Listview(id,Title,Artist,Year,data,price){
   var str = "<tr>"+
@@ -68,11 +103,10 @@ function album_Listview(id,Title,Artist,Year,data,price){
       return str;             
 }
 
-/**
-  *
-  *
-  *
- */ 
+/** Make a table song header
+  * Args: None
+  * Returns: String/HTML header for a song table
+ */  
 
 function do_song_table(){
   var str = "<tr><th>Artist</th>"+
@@ -84,11 +118,11 @@ function do_song_table(){
   return str;
 }
  
-/**
-  *
-  *
-  *
- */ 
+/** Make a table song header
+  * Args:
+  *      data: play or sell state
+  * Returns: String/HTML header for a song table 
+ */  
 
 function do_album_table(data){
   var str = "<tr><th>Title</th>"+
@@ -101,49 +135,25 @@ function do_album_table(data){
 }     
 
 
-/**
-  *
-  *
-  *
- */ 
-function more_listened(){
-  $("#H_Title").html("Most Listened Songs");
+/** Make join between the tables Albums-Artist-Songs
+  * Args: None
+  * Returns: A html build list with most listened songs
+ */  
+
+function most_listened(){
+  $("#H_Title").html("<strong>Most Listened</strong> Songs");
   $("#tableHead").html(do_song_table());
-  Parse.Cloud.run('MoreListened', {}, {
+  Parse.Cloud.run('MoreListened',{},{
     success: function(result) {   
     Parse.Cloud.run('GetAlbums', {}, {
       success: function(_resultAl) {
         Parse.Cloud.run('GetArtists', {}, {
           success: function(_resultAr) {   
-             var ListView = "";
-             for(i=0; i<result.length ;i++){
-                for(j=0; j<_resultAl.length; j++){
-                  for(k=0; k<_resultAl.length; k++){
-                    var data = JSON.stringify(result[i]);
-                    var jsonobject = JSON.parse(data);
-
-                    var j_data = JSON.stringify(_resultAl[j]);
-                    var al_jsonobject = JSON.parse(j_data);
-
-                    var k_data = JSON.stringify(_resultAr[k]);
-                    var ar_jsonobject = JSON.parse(k_data);
-
-                    if(jsonobject.FK_Album == al_jsonobject.objectId && jsonobject.FK_Artist == ar_jsonobject.objectId){
-                      ListView = ListView + song_Listview(jsonobject.objectId,ar_jsonobject.Name,
-                        jsonobject.Title,al_jsonobject.Title,jsonobject.Replays,jsonobject.Duration,jsonobject.FK_Album);
-                    }               
-                }
-              }
-             }
-              document.getElementById("ListView").innerHTML = ListView;
-          },
-          error: function(error) {
+             var ListView = data_inner_join(result,_resultAl,_resultAr);
+             document.getElementById("ListView").innerHTML = ListView;
           }
-        });
-      },
-      error: function(error) {
-      }
-    });
+        })
+      }})
     },
     error: function(error) {
       response.error(error);
@@ -151,37 +161,21 @@ function more_listened(){
   });
 }
 
-/**
-  *
-  *
-  *
- */ 
+/** Make join between the tables Albums-Artist in best sellers order
+  * Args: None
+  * Returns: A html build list with best seller albums
+ */  
+
 function best_sellers(){ 
-  $("#H_Title").html("Best Seller");
+  $("#H_Title").html("<strong>Best</strong> Seller");
   $("#tableHead").html(do_album_table('Sales'));
   Parse.Cloud.run('BestSeller', {}, {
     success: function(result) {   
       Parse.Cloud.run('GetArtists', {}, {
         success: function(_result) {
-           var ListView = "";
-           for(i=0; i<result.length ;i++){
-              for(j=0; j<_result.length ;j++){                  
-                  var data = JSON.stringify(result[i]);
-                  var jsonobject = JSON.parse(data); 
-                  var a_data = JSON.stringify(_result[j]);
-                  var a_jsonobject = JSON.parse(a_data); 
-
-                  if(jsonobject.FK_Artist == a_jsonobject.objectId){
-                      ListView = ListView + album_Listview(jsonobject.objectId,jsonobject.Title,
-                        a_jsonobject.Name,jsonobject.Year,jsonobject.Sales,jsonobject.Price);
-                      break;
-                  }                  
-              }
-           }
+           var ListView = album_join_by_sales(result,_result);
            document.getElementById("ListView").innerHTML = ListView;
         },
-        error: function(error) {
-        }
       });
      },
     error: function(error) {
@@ -191,36 +185,21 @@ function best_sellers(){
 }
 
 
-/**
-  *
-  *
-  *
- */ 
+/** Make join between the tables Albums-Artist in most listened order
+  * Args: 
+  * Returns: A html build list with most listened albums
+ */  
+
 function m_listened_album(){ 
-  $("#H_Title").html("Most Listened Albums");
+  $("#H_Title").html("<strong>Most Listened</strong> Albums");
   $("#tableHead").html(do_album_table('Replays'));
   Parse.Cloud.run('BestAlbum', {}, {
     success: function(result) {   
       Parse.Cloud.run('GetArtists', {}, {
         success: function(_result) {     
-           var ListView = "";
-           for(i=0; i<result.length ;i++){
-              for(j=0; j<_result.length ;j++){                  
-                  var data = JSON.stringify(result[i]);
-                  var jsonobject = JSON.parse(data); 
-                  var a_data = JSON.stringify(_result[j]);
-                  var a_jsonobject = JSON.parse(a_data); 
-                  if(jsonobject.FK_Artist == a_jsonobject.objectId){
-                      ListView = ListView + album_Listview(jsonobject.objectId,jsonobject.Title,
-                        a_jsonobject.Name,jsonobject.Year,jsonobject.Replays,jsonobject.Price);
-                      break;
-                  }                  
-              }
-           }
-            document.getElementById("ListView").innerHTML = ListView;
+           var ListView =  album_join_by_replays(result,_result);
+           document.getElementById("ListView").innerHTML = ListView;
         },
-        error: function(error) {
-        }
       });
      },
     error: function(error) {
@@ -228,6 +207,13 @@ function m_listened_album(){
     }
   });
 }
+
+/** Create a sale relation between album and user 
+  * Args:
+  *     ID : User ID
+  *     albumID: Album ID  
+  * Returns: Successful  message
+ */ 
 
 function buy_album(id, _price){
   Parse.Cloud.run('BuyAlbum', {postId: id , userID: Parse.User.current().id  , albumID: id, price: _price}, {
@@ -238,4 +224,87 @@ function buy_album(id, _price){
     error: function(error) {
     }
   });
+}
+
+
+/** Inner join bewtenn 3 tables
+  * Args: 
+  *     result: results from song table
+  *     _resultAl: results from album table
+  *     _resultAl: results from artist table
+  * Returns: A string html build list with most listened albums
+ */ 
+
+function data_inner_join(TableSong,TableAlbum,TableArtist){
+   var ListView = "";
+   for(i=0; i<TableSong.length ;i++){
+      for(j=0; j<TableAlbum.length; j++){
+        for(k=0; k<TableArtist.length; k++){
+
+          var data = JSON.stringify(TableSong[i]);
+          var jsonobject = JSON.parse(data);
+
+          var j_data = JSON.stringify(TableAlbum[j]);
+          var al_jsonobject = JSON.parse(j_data);
+
+          var k_data = JSON.stringify(TableArtist[k]);
+          var ar_jsonobject = JSON.parse(k_data);
+
+          if(jsonobject.FK_Album == al_jsonobject.objectId && jsonobject.FK_Artist == ar_jsonobject.objectId){
+            ListView = ListView + song_Listview(jsonobject.objectId,ar_jsonobject.Name,
+              jsonobject.Title,al_jsonobject.Title,jsonobject.Replays,jsonobject.Duration,jsonobject.FK_Album);
+          }               
+      }
+    }
+   }
+   return ListView;
+}
+
+/** Inner join bewtenn  2 tables Album - Artist order by replays
+  * Args: 
+  *     TableAlbum: results from album table
+  *     TableArtist: results from artist table
+  * Returns: A string html build list with most replayed albums
+ */ 
+function album_join_by_replays(TableAlbum,TableArtist){
+  var ListView = "";
+   for(i=0; i<TableAlbum.length ;i++){
+      for(j=0; j<TableArtist.length ;j++){                  
+          var data = JSON.stringify(TableAlbum[i]);
+          var jsonobject = JSON.parse(data); 
+          var a_data = JSON.stringify(TableArtist[j]);
+          var a_jsonobject = JSON.parse(a_data); 
+          if(jsonobject.FK_Artist == a_jsonobject.objectId){
+              ListView = ListView + album_Listview(jsonobject.objectId,jsonobject.Title,
+                a_jsonobject.Name,jsonobject.Year,jsonobject.Replays,jsonobject.Price);
+              break;
+          }                  
+      }
+   }
+   return ListView;
+}
+
+/** Inner join bewtenn 2 tables Album - Arist order by sales
+  * Args: 
+  *     TableAlbum: results from album table
+  *     TableArtist: results from artist table
+  * Returns: A string html build list with a best sellers albums
+ */ 
+function album_join_by_sales(TableAlbum,TableArtist){
+  var ListView = "";
+   for(i=0; i<TableAlbum.length ;i++){
+      for(j=0; j<TableArtist.length ;j++){                  
+          var data = JSON.stringify(TableAlbum[i]);
+          var jsonobject = JSON.parse(data); 
+          var a_data = JSON.stringify(TableArtist[j]);
+          var a_jsonobject = JSON.parse(a_data); 
+
+          if(jsonobject.FK_Artist == a_jsonobject.objectId){
+              ListView = ListView + album_Listview(jsonobject.objectId,jsonobject.Title,
+                a_jsonobject.Name,jsonobject.Year,jsonobject.Sales,jsonobject.Price);
+              break;
+          }                  
+      }
+   }
+  return ListView;
 }

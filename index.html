@@ -20,16 +20,14 @@
     <link href="css/creativeria.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
 </head>
-<body>
+<body  id="linearBg">
   <div class="wrapper">
     <form class="form-signin">       
-      <h2 class="form-signin-heading">Please login</h2>
-      <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
-      <input type="password" class="form-control" name="password" placeholder="Password" required=""/>      
-      <label class="checkbox">
-        <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
-      </label>
-      <button class="btn btn-lg btn-primary btn-block" onclick="log_user('Juan','123456')" >Login</button>   
+      <h2 class="form-signin-heading" align="center" style= "margin-bottom: 20px">Creativeria Store</h2>
+      <input type="text" class="form-control" name="username" placeholder="Username" style= "margin-bottom: 20px" id="username"/>
+      <input type="password" class="form-control" name="password" placeholder="Password" style= "margin-bottom: 20px" id="password"/>      
+      <a class="btn btn-lg btn-primary btn-block bg-orange-ligth" onclick="login_user()" style= "margin-bottom: 20px">Login</a>   
+      <a class="btn btn-lg btn-primary btn-block bg-orange-ligth" onclick="alert_msg()">Help</a>
     </form>
   </div>
 </body>
