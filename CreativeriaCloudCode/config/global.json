@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Creativeria_Test": {
+            "applicationId": "Eqk0K7rw41mCbZbO38mbLnzmenMtbZsfqzg4b6hl", 
+            "masterKey": "pqluyXsI6M4raVU9uGwW1tQznV5Bn1JqZfj21Jsi"
+        }, 
+        "_default": {
+            "link": "Creativeria_Test"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.4.2"
+    }
+}
