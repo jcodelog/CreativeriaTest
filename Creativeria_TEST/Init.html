@@ -31,13 +31,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-headphones fa-x"> &nbsp; </i>Favorite Songs</a>
+                    <a href="#" onclick="more_listened()"><i class="fa fa-headphones fa-x"> &nbsp; </i>Favorite Songs</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-heartbeat fa-x"> &nbsp; </i>Favorite Albums</a>
+                    <a href="#" onclick="m_listened_album()" ><i class="fa fa-heartbeat fa-x"> &nbsp; </i>Favorite Albums</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-money fa-x"> &nbsp; </i>Best Sellers</a>
+                    <a href="#" onclick="best_sellers()"><i class="fa fa-money fa-x" > &nbsp; </i>Best Sellers</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-shopping-cart fa-x"> &nbsp; </i>Buy Album</a>
@@ -53,22 +53,12 @@
       <div class="jumbotron" style="background:#F38630">      
         <h1 style="color:white" align="center">Enjoy your music!!</h1> 
      </div>
-      <h1 align="center">More listened</h1>
+      <h1 align="center" id="H_Title"></h1>
       <div>
         <div style= "margin: 25px 25px 25px">
             <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Artist</th>
-                  <th>Title</th>
-                  <th>Album</th>
-                  <th>Replays</th>
-                  <th>Duration</th>
-                  <th>Play / Buy Album</th>              
-                </tr>
-              </thead>
-              <tbody id="ListView">            
-              </tbody>
+              <thead id="tableHead"></thead>
+              <tbody id="ListView"></tbody>
             </table>
         </div>
 </div>
@@ -76,10 +66,13 @@
     </div>
     <!-- Menu Toggle Script -->
     <script>
+    $("#tableHead").html(do_song_table());
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+    more_listened();
+    $("#H_Title").html("Welcome to the Music Store");
     </script>
 </body>
 </html>
